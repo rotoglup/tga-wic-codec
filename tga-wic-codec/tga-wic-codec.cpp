@@ -10,6 +10,7 @@ STDAPI DllRegisterServer()
 	wicx::RegMan regMan;
 	tgax::TGA_Decoder::Register( regMan );
 
+	// Update the Thumbnail Cache When Installing
 	SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 
 	return S_OK;

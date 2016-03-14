@@ -1,10 +1,12 @@
 #include "tgadecoder.hpp"
 
 // 9BCD5FD0-93AA-4574-A107-0A7CF1216D0F
+#define CONTAINER_CLSID "{9BCD5FD0-93AA-4574-A107-0A7CF1216D0F}"
 const GUID CLSID_TGA_Container = 
 { 0x9BCD5FD0, 0x93AA, 0x4574, { 0xA1, 0x07, 0x0A, 0x7C, 0xF1, 0x21, 0x6D, 0x0F } };
 
 // 369EA481-D011-4D53-9875-7D6A4BD4BD60
+#define DECODER_CLSID "{369EA481-D011-4D53-9875-7D6A4BD4BD60}"
 const GUID CLSID_TGA_Decoder = 
 { 0x369EA481, 0xD011, 0x4D53, { 0x98, 0x75, 0x7D, 0x6A, 0x4B, 0xD4, 0xBD, 0x60} };
 
@@ -413,36 +415,38 @@ namespace tgax
 		wchar_t tempFileName[MAX_PATH];
 		if ( curModule != NULL ) GetModuleFileName( curModule, tempFileName, MAX_PATH );
 
-		regMan.SetSZ( L"CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"CLSID", L"{369EA481-D011-4D53-9875-7D6A4BD4BD60}" );
-		regMan.SetSZ( L"CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"FriendlyName", L"TGA Decoder" );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"Version", L"1.0.0.0" );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"Date", _T(__DATE__) );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"SpecVersion", L"1.0.0.0" );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"ColorManagementVersion", L"1.0.0.0" );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"MimeTypes", L"x-image/tga" );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"FileExtensions", L".tga" );
-		regMan.SetDW( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"SupportsAnimation", 0 );
-		regMan.SetDW( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"SupportChromakey", 0 );
-		regMan.SetDW( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"SupportLossless", 1 );
-		regMan.SetDW( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"SupportMultiframe", 0 );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"ContainerFormat", L"{9BCD5FD0-93AA-4574-A107-0A7CF1216D0F}" );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"Author", L"Manu Evans, http://github.com/TurkeyMan" );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"Description", L"Targa Format Decoder" );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}", L"FriendlyName", L"TGA Decoder" );
+		// NOTE(nico) see https://msdn.microsoft.com/fr-fr/library/windows/desktop/ee719873%28v=vs.85%29.aspx
 
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}\\Formats", L"", L"" );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}\\Formats\\{6FDDC324-4E03-4BFE-B185-3D77768DC90F}", L"", L"" );
+		regMan.SetSZ( L"CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance\\" DECODER_CLSID, L"CLSID", L"" DECODER_CLSID );
+		regMan.SetSZ( L"CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance\\" DECODER_CLSID, L"FriendlyName", L"TGA Decoder" );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"Version", L"1.0.0.0" );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"Date", _T(__DATE__) );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"SpecVersion", L"1.0.0.0" );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"ColorManagementVersion", L"1.0.0.0" );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"MimeTypes", L"x-image/tga" );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"FileExtensions", L".tga" );
+		regMan.SetDW( L"CLSID\\" DECODER_CLSID, L"SupportsAnimation", 0 );
+		regMan.SetDW( L"CLSID\\" DECODER_CLSID, L"SupportChromakey", 0 );
+		regMan.SetDW( L"CLSID\\" DECODER_CLSID, L"SupportLossless", 1 );
+		regMan.SetDW( L"CLSID\\" DECODER_CLSID, L"SupportMultiframe", 0 );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"ContainerFormat", L"" CONTAINER_CLSID );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"Author", L"Manu Evans, http://github.com/TurkeyMan" );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"Description", L"Targa Format Decoder" );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"FriendlyName", L"TGA Decoder" );
 
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}\\InprocServer32", L"", tempFileName );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}\\InprocServer32", L"ThreadingModel", L"Apartment" );
-		regMan.SetSZ( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}\\Patterns", L"", L"" );
-		regMan.SetDW( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}\\Patterns\\0", L"Position", 0 );
-		regMan.SetDW( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}\\Patterns\\0", L"Length", 4 );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID "\\Formats", L"", L"" );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID "\\Formats\\{6FDDC324-4E03-4BFE-B185-3D77768DC90F}", L"", L"" );
+
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID "\\InprocServer32", L"", tempFileName );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID "\\InprocServer32", L"ThreadingModel", L"Apartment" );
+		regMan.SetSZ( L"CLSID\\" DECODER_CLSID "\\Patterns", L"", L"" );
+		regMan.SetDW( L"CLSID\\" DECODER_CLSID "\\Patterns\\0", L"Position", 0 );
+		regMan.SetDW( L"CLSID\\" DECODER_CLSID "\\Patterns\\0", L"Length", 4 );
 
 		BYTE bytes[8] = { 0 };
 		bytes[0] = 0x44; bytes[1] = 0x44; bytes[2] = 0x53; bytes[3] = 0x20;
-		regMan.SetBytes( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}\\Patterns\\0", L"Pattern", bytes, 4 );
+		regMan.SetBytes( L"CLSID\\" DECODER_CLSID "\\Patterns\\0", L"Pattern", bytes, 4 );
 		bytes[0] = bytes[1] = bytes[2] = bytes[3] = 0xFF;
-		regMan.SetBytes( L"CLSID\\{369EA481-D011-4D53-9875-7D6A4BD4BD60}\\Patterns\\0", L"Mask", bytes, 4 );
+		regMan.SetBytes( L"CLSID\\" DECODER_CLSID "\\Patterns\\0", L"Mask", bytes, 4 );
 	}
 }
