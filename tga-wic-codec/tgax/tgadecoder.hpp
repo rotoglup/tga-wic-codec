@@ -30,7 +30,7 @@ namespace tgax
 	class TGA_Decoder: public BaseDecoder
 	{
 	public:
-		static void Register( RegMan &regMan );
+		static HRESULT Register( RegMan &regMan );
 
 		TGA_Decoder();
 		~TGA_Decoder();

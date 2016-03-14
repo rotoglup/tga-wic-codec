@@ -8,7 +8,8 @@
 STDAPI DllRegisterServer()
 {    
 	wicx::RegMan regMan;
-	tgax::TGA_Decoder::Register( regMan );
+	HRESULT result = tgax::TGA_Decoder::Register( regMan );
+	if (!SUCCEEDED(result)) return result;
 
 	// Update the Thumbnail Cache When Installing
 	SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);

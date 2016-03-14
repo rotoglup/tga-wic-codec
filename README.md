@@ -11,6 +11,7 @@ Installation
 Check-out source, build and execute `regsvr32 tga-wic-codec.dll` command (_administrator rights_ are required to register the codec properly).
 
 `tga-wic-codec.dll` should be signed with trusted certificate. You can easily make your own certificate, sign the dll and put the certificate to Windows trusted root certificates store **TODO**.
+* http://stackoverflow.com/questions/84847/how-do-i-create-a-self-signed-certificate-for-code-signing-on-windows
 
 In Windows Vista and Windows 7 you can use this codec to show thumbnails of files in supported formats in Windows Explorer.
 

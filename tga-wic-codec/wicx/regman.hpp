@@ -7,19 +7,19 @@ namespace wicx
 	class RegMan
 	{
 	public:
-		void SetSZ( wchar_t const *keyName, wchar_t const *valueName, LPCWSTR value )
+		HRESULT SetSZ( wchar_t const *keyName, wchar_t const *valueName, LPCWSTR value )
 		{
-			SetRaw( keyName, valueName, REG_SZ, value, sizeof(wchar_t)*(wcslen(value)) );
+			return SetRaw( keyName, valueName, REG_SZ, value, sizeof(wchar_t)*(wcslen(value)) );
 		}
 
-		void SetDW( wchar_t const *keyName, wchar_t const *valueName, DWORD value )
+		HRESULT SetDW( wchar_t const *keyName, wchar_t const *valueName, DWORD value )
 		{
-			SetRaw( keyName, valueName, REG_DWORD, &value, sizeof(value) );
+			return SetRaw( keyName, valueName, REG_DWORD, &value, sizeof(value) );
 		}
 
-		void SetBytes( wchar_t const *keyName, wchar_t const *valueName, void *value, size_t count )
+		HRESULT SetBytes( wchar_t const *keyName, wchar_t const *valueName, void *value, size_t count )
 		{
-			SetRaw( keyName, valueName, REG_BINARY, value, count );
+			return SetRaw( keyName, valueName, REG_BINARY, value, count );
 		}
 
 		void Unregister();
@@ -27,6 +27,6 @@ namespace wicx
 	private:
 		std::vector< wchar_t const * > m_keys;
 
-		void SetRaw( wchar_t const *keyName, wchar_t const *valueName, unsigned type, void const *value, size_t valueSize );
+		HRESULT SetRaw( wchar_t const *keyName, wchar_t const *valueName, unsigned type, void const *value, size_t valueSize );
 	};
 }

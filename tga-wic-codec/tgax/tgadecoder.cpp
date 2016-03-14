@@ -409,16 +409,19 @@ namespace tgax
 		return new TGA_FrameDecode( factory, i );
 	}
 
-	void TGA_Decoder::Register( RegMan &regMan )
+	HRESULT TGA_Decoder::Register( RegMan &regMan )
 	{
 		HMODULE curModule = GetModuleHandle( L"tga-wic-codec.dll" );
 		wchar_t tempFileName[MAX_PATH];
 		if ( curModule != NULL ) GetModuleFileName( curModule, tempFileName, MAX_PATH );
 
 		// NOTE(nico) see https://msdn.microsoft.com/fr-fr/library/windows/desktop/ee719873%28v=vs.85%29.aspx
+		HRESULT err;
 
-		regMan.SetSZ( L"CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance\\" DECODER_CLSID, L"CLSID", L"" DECODER_CLSID );
-		regMan.SetSZ( L"CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance\\" DECODER_CLSID, L"FriendlyName", L"TGA Decoder" );
+#define REGMAN__VERIFY(x) if (!SUCCEEDED(err = (x))) return err; 
+
+		REGMAN__VERIFY(regMan.SetSZ(L"CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance\\" DECODER_CLSID, L"CLSID", L"" DECODER_CLSID));
+		REGMAN__VERIFY(regMan.SetSZ(L"CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance\\" DECODER_CLSID, L"FriendlyName", L"TGA Decoder"));
 		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"Version", L"1.0.0.0" );
 		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"Date", _T(__DATE__) );
 		regMan.SetSZ( L"CLSID\\" DECODER_CLSID, L"SpecVersion", L"1.0.0.0" );
@@ -448,5 +451,7 @@ namespace tgax
 		regMan.SetBytes( L"CLSID\\" DECODER_CLSID "\\Patterns\\0", L"Pattern", bytes, 4 );
 		bytes[0] = bytes[1] = bytes[2] = bytes[3] = 0xFF;
 		regMan.SetBytes( L"CLSID\\" DECODER_CLSID "\\Patterns\\0", L"Mask", bytes, 4 );
+
+		return S_OK;
 	}
 }
